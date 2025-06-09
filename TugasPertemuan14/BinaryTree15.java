@@ -39,7 +39,6 @@ public class BinaryTree15 {
         root = tambahRekursif(root, data);
     }
 
-    // Method rekursif internal
     private Node15 tambahRekursif(Node15 current, Mahasiswa15 data) {
         if (current == null) {
             return new Node15(data);
@@ -50,12 +49,48 @@ public class BinaryTree15 {
         } else if (data.ipk > current.mahasiswa.ipk) {
             current.right = tambahRekursif(current.right, data);
         } else {
-            // IPK sama, tidak ditambahkan untuk menghindari duplikat
             System.out.println("Data dengan IPK " + data.ipk + " sudah ada.");
         }
 
         return current;
     }
+
+    public Mahasiswa15 cariMinIPK() {
+        Node15 current = root;
+        while (current.left != null) {
+            current = current.left;
+        }
+        return current.mahasiswa;
+    }
+
+    public Mahasiswa15 cariMaxIPK() {
+        Node15 current = root;
+        while (current.right != null) {
+            current = current.right;
+        }
+        return current.mahasiswa;
+    }
+
+    public void tampilMahasiswaIPKdiAtas(double ipkBatas) {
+        System.out.println("Mahasiswa dengan IPK di atas " + ipkBatas + ":");
+        tampilMahasiswaIPKdiAtasRekursif(root, ipkBatas);
+    }
+
+    private void tampilMahasiswaIPKdiAtasRekursif(Node15 node, double ipkBatas) {
+        if (node != null) {
+            // Traverse kiri terlebih dahulu
+            tampilMahasiswaIPKdiAtasRekursif(node.left, ipkBatas);
+            
+            // Cek apakah IPK di atas batas
+            if (node.mahasiswa.ipk > ipkBatas) {
+                node.mahasiswa.tampilInformasi();
+            }
+
+            // Traverse kanan
+            tampilMahasiswaIPKdiAtasRekursif(node.right, ipkBatas);
+        }
+    }
+
 
     public boolean find(double ipk) {
         boolean result = false;
